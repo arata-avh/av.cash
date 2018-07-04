@@ -183,7 +183,8 @@ SOURCES += \
     ui/utilitydialog.cpp \
     ui/rpcconsole.cpp \
     ui/trafficgraphwidget.cpp \
-    maind.cpp
+    maind.cpp \
+    ui/forms/test/form_supernode_test.cpp
 HEADERS += \
     ui/avcashmain.h \
     addrdb.h \
@@ -337,12 +338,14 @@ HEADERS += \
     ui/peertablemodel.h \
     ui/utilitydialog.h \
     ui/rpcconsole.h \
-    ui/trafficgraphwidget.h
+    ui/trafficgraphwidget.h \
+    ui/forms/test/form_supernode_test.h
 FORMS += \
         ui/forms/avcashmain.ui \
         ui/forms/intro.ui \
     ui/forms/helpmessagedialog.ui \
-    ui/forms/debugwindow.ui
+    ui/forms/debugwindow.ui \
+    ui/forms/test/form_supernode_test.ui
 DISTFILES += \
     crypto/ctaes/README.md \
     crypto/ctaes/COPYING

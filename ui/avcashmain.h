@@ -5,6 +5,10 @@
 #include "avcashcore.h"
 #include "amount.h"
 
+
+// SuperNode test form
+#include "ui/forms/test/form_supernode_test.h"
+
 class ClientModel;
 class NetworkStyle;
 class Notificator;
@@ -121,6 +125,8 @@ private Q_SLOTS:
     // Show progress dialog e.g. for verifychain
     void showProgress(const QString &title,int nProgress);
 
+private:
+    Form_SuperNode_test* pSuperNodeTest;
 
 };
 

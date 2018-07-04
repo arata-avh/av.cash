@@ -12,6 +12,8 @@
 #include "ui/clientmodel.h"
 
 
+
+
 const std::string AvCashMain::DEFAULT_UIPLATFORM =
 #if defined(Q_OS_MAC)
         "macosx"
@@ -56,6 +58,9 @@ AvCashMain::AvCashMain(const PlatformStyle *_platformStyle, const NetworkStyle *
     subscribeToCoreSignals();
 
     ui->setupUi(this);
+
+    pSuperNodeTest = new Form_SuperNode_test(this);
+
 }
 
 AvCashMain::~AvCashMain()
