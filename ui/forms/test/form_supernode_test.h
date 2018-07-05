@@ -15,6 +15,11 @@ public:
     explicit Form_SuperNode_test(QWidget *parent = 0);
     ~Form_SuperNode_test();
 
+private slots:
+    void on_btn_getblockchaininfo_clicked();
+
+    void on_btn_generate_clicked();
+
 private:
     Ui::Form_SuperNode_test *ui;
 };
