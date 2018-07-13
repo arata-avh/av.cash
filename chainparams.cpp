@@ -48,8 +48,8 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
  */
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
-    const char* pszTimestamp = "The Times 03/Jan/2009 Chancellor on brink of second bailout for banks";
-    const CScript genesisOutputScript = CScript() << ParseHex("04678afdb0fe5548271967f1a67130b7105cd6a828e03909a67962e0ea1f61deb649f6bc3f4cef38c4f35504e51ec112de5c384df7ba0b8d578a4c702b6bf11d5f") << OP_CHECKSIG;
+    const char* pszTimestamp = "Animation video cash";
+    const CScript genesisOutputScript = CScript() << ParseHex("0475cad28ade36fbeee4ae1e851e1f65131ebd3260a98f52c0b31476710c321e3f5ed19add43cec16dc10a25a716baed3983e0ce1e81d2c4fe5edbba89007f73a8") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
 
@@ -299,14 +299,14 @@ public:
         nDefaultPort = 18444;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1296688602, 2, 0x207fffff, 4, 50 * COIN);
+        genesis = CreateGenesisBlock(1516438800, 2018, 0x207fffff, 4, 5000000000 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
 
         std::string blockHash = genesis.GetHash().ToString();
         std::string merkleRoot = genesis.hashMerkleRoot.ToString();
 
-        //assert(consensus.hashGenesisBlock == uint256S("0xcac7bf92fa3db18327fa91489548c14c43bcad10daba828ac923e99394aff0c7"));
-        //assert(genesis.hashMerkleRoot == uint256S("0xa1d38ec583043b2d863efb257862f9046a65e3e374719961d553464a89d0903c"));
+        assert(consensus.hashGenesisBlock == uint256S("d716d948c8a7c6db6dc0cc7c894f194b4da3a8d430ccf5935571fd8eea253e4a"));
+        assert(genesis.hashMerkleRoot == uint256S("921dd3a43e89836bd161e9630ba9b581d4cded071a25a95480fda8c08bf7f4a6"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
@@ -317,7 +317,7 @@ public:
 
         checkpointData = {
             {
-                {0, uint256S("cac7bf92fa3db18327fa91489548c14c43bcad10daba828ac923e99394aff0c7")},
+                {0, uint256S("d716d948c8a7c6db6dc0cc7c894f194b4da3a8d430ccf5935571fd8eea253e4a")},
             }
         };
 
