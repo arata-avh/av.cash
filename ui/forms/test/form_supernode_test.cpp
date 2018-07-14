@@ -7,6 +7,7 @@
 #include "wallet/wallet.h"
 #include "script/script.h"
 #include "rpc/mining.h"
+#include "base58.h"
 
 Form_SuperNode_test::Form_SuperNode_test(QWidget *parent) :
     QWidget(parent),
@@ -50,4 +51,21 @@ void Form_SuperNode_test::on_btn_generate_clicked()
     int n = 1;
 
 
+}
+
+void Form_SuperNode_test::on_btn_key_test_clicked()
+{
+    CBitcoinSecret vchSecret;
+    bool fGood = vchSecret.SetString("xxxxxx");
+
+    if(fGood)
+    {
+        CKey key = vchSecret.GetKey();
+        if(!key.IsValid()) return;
+        CPubKey pubkey = key.GetPubKey();
+        CKeyID vchAddress = pubkey.GetID();
+
+        LogPrintf("pubkey hexstr : %s",HexStr(pubkey.begin(),pubkey.end()).c_str());
+
+    }
 }
