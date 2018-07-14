@@ -45,6 +45,19 @@
     <string>generate</string>
    </property>
   </widget>
+  <widget class="QPushButton" name="btn_key_test">
+   <property name="geometry">
+    <rect>
+     <x>380</x>
+     <y>30</y>
+     <width>114</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>key_test</string>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>

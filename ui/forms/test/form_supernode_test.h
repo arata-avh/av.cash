@@ -20,6 +20,8 @@ private slots:
 
     void on_btn_generate_clicked();
 
+    void on_btn_key_test_clicked();
+
 private:
     Ui::Form_SuperNode_test *ui;
 };
