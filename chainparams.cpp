@@ -49,7 +49,7 @@ static CBlock CreateGenesisBlock(const char* pszTimestamp, const CScript& genesi
 static CBlock CreateGenesisBlock(uint32_t nTime, uint32_t nNonce, uint32_t nBits, int32_t nVersion, const CAmount& genesisReward)
 {
     const char* pszTimestamp = "Animation video cash";
-    const CScript genesisOutputScript = CScript() << ParseHex("0475cad28ade36fbeee4ae1e851e1f65131ebd3260a98f52c0b31476710c321e3f5ed19add43cec16dc10a25a716baed3983e0ce1e81d2c4fe5edbba89007f73a8") << OP_CHECKSIG;
+    const CScript genesisOutputScript = CScript() << ParseHex("0382179f09dc5bcd4f844024b074cbd4b60d0348386c63b98abc6d0bbd4bf7ffdd") << OP_CHECKSIG;
     return CreateGenesisBlock(pszTimestamp, genesisOutputScript, nTime, nNonce, nBits, nVersion, genesisReward);
 }
 
@@ -299,14 +299,11 @@ public:
         nDefaultPort = 18444;
         nPruneAfterHeight = 1000;
 
-        genesis = CreateGenesisBlock(1516438800, 2018, 0x207fffff, 4, 5000000000 * COIN);
+        genesis = CreateGenesisBlock(1516438800, 2, 0x207fffff, 4, 5000000000 * COIN);
         consensus.hashGenesisBlock = genesis.GetHash();
 
-        std::string blockHash = genesis.GetHash().ToString();
-        std::string merkleRoot = genesis.hashMerkleRoot.ToString();
-
-        assert(consensus.hashGenesisBlock == uint256S("d716d948c8a7c6db6dc0cc7c894f194b4da3a8d430ccf5935571fd8eea253e4a"));
-        assert(genesis.hashMerkleRoot == uint256S("921dd3a43e89836bd161e9630ba9b581d4cded071a25a95480fda8c08bf7f4a6"));
+        assert(consensus.hashGenesisBlock == uint256S("280a177e47bc5d06d4048f26819636a8d89b106be0ce71eeeba5a288dad4aef1"));
+        assert(genesis.hashMerkleRoot == uint256S("c71dd1fa47f9cd8ccb15357be1ba9f84ac774bbc2d77a1e4c3f4bc2241567115"));
 
         vFixedSeeds.clear(); //!< Regtest mode doesn't have any fixed seeds.
         vSeeds.clear();      //!< Regtest mode doesn't have any DNS seeds.
@@ -317,12 +314,12 @@ public:
 
         checkpointData = {
             {
-                {0, uint256S("d716d948c8a7c6db6dc0cc7c894f194b4da3a8d430ccf5935571fd8eea253e4a")},
+                {0, uint256S("0x01")},
             }
         };
 
         chainTxData = ChainTxData{
-            0,
+            1516438800,
             0,
             0
         };
