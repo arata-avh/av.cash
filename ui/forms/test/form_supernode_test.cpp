@@ -11,7 +11,8 @@
 
 Form_SuperNode_test::Form_SuperNode_test(QWidget *parent) :
     QWidget(parent),
-    ui(new Ui::Form_SuperNode_test)
+    ui(new Ui::Form_SuperNode_test),
+    timeNumber(0)
 {
     ui->setupUi(this);
 
@@ -33,7 +34,14 @@ void Form_SuperNode_test::on_btn_getblockchaininfo_clicked()
 
 void Form_SuperNode_test::on_btn_generate_clicked()
 {
-    LogPrintf("[generate]\n");
+    QTimer* timer = new QTimer(this);
+    connect(timer,SIGNAL(timeout()),this,SLOT(timerHandler()));
+    timer->start(5000);
+}
+
+void Form_SuperNode_test::auto_generate()
+{
+    //LogPrintf("[generate]\n");
 
     if(::vpwallets.empty()) return;
     if(::vpwallets.size() <= 0) return;
@@ -46,11 +54,7 @@ void Form_SuperNode_test::on_btn_generate_clicked()
     if(!coinbase_script) return;
     if(coinbase_script->reserveScript.empty()) return;
 
-    UniValue univalue = generateBlocks(coinbase_script,1,1,true);
-
-    int n = 1;
-
-
+    UniValue univalue = generateBlocks(coinbase_script,1,1000000,true);
 }
 
 void Form_SuperNode_test::on_btn_key_test_clicked()
@@ -68,4 +72,23 @@ void Form_SuperNode_test::on_btn_key_test_clicked()
         LogPrintf("pubkey hexstr : %s",HexStr(pubkey.begin(),pubkey.end()).c_str());
 
     }
+}
+
+void Form_SuperNode_test::timerHandler()
+{
+    auto_generate();
+
+    timeNumber += 1;
+
+    ui->lb1->setText("generate : " + QString::number(timeNumber) + " times");
+}
+
+void Form_SuperNode_test::on_btn_getBlockByPos_clicked()
+{
+
+}
+
+void Form_SuperNode_test::on_btn_unspent_clicked()
+{
+
 }

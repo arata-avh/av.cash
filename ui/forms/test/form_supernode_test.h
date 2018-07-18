@@ -2,6 +2,7 @@
 #define FORM_SUPERNODE_TEST_H
 
 #include <QWidget>
+#include <QTimer>
 
 namespace Ui {
 class Form_SuperNode_test;
@@ -22,8 +23,18 @@ private slots:
 
     void on_btn_key_test_clicked();
 
+    void timerHandler();
+
+    void on_btn_getBlockByPos_clicked();
+
+    void on_btn_unspent_clicked();
+
+private:
+    void auto_generate();
+
 private:
     Ui::Form_SuperNode_test *ui;
+    int timeNumber;
 };
 
 #endif // FORM_SUPERNODE_TEST_H
