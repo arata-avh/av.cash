@@ -1632,6 +1632,9 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
 
         connman->PushMessage(pfrom, CNetMsgMaker(INIT_PROTO_VERSION).Make(NetMsgType::VERACK));
 
+        // send avh test
+        connman->PushMessage(pfrom, CNetMsgMaker(nSendVersion).Make(NetMsgType::AVHTEST,1,2,3));
+
         pfrom->nServices = nServices;
         pfrom->SetAddrLocal(addrMe);
         {
@@ -2846,6 +2849,15 @@ bool static ProcessMessage(CNode* pfrom, const std::string& strCommand, CDataStr
     else if (strCommand == NetMsgType::NOTFOUND) {
         // We do not care about the NOTFOUND message, but logging an Unknown Command
         // message would be undesirable as we transmit it ourselves.
+    }
+
+    else if(strCommand == NetMsgType::AVHTEST){
+        // AVH Protocol test
+        int n1,n2,n3;
+
+        vRecv >> n1 >> n2 >> n3;
+
+        int n4 = n1 + n2 + n3;
     }
 
     else {
