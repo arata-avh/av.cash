@@ -36,7 +36,7 @@ void Form_SuperNode_test::on_btn_generate_clicked()
 {
     QTimer* timer = new QTimer(this);
     connect(timer,SIGNAL(timeout()),this,SLOT(timerHandler()));
-    timer->start(5000);
+    timer->start(100);
 }
 
 void Form_SuperNode_test::auto_generate()

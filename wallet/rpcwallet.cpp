@@ -3435,6 +3435,20 @@ UniValue generate(const JSONRPCRequest& request)
     return generateBlocks(coinbase_script, num_generate, max_tries, true);
 }
 
+/*
+ * supernode start generate
+*/
+UniValue autogenerate(const JSONRPCRequest& request)
+{
+    CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
+
+    if (!EnsureWalletIsAvailable(pwallet, request.fHelp)) {
+        return NullUniValue;
+    }
+
+    return NullUniValue;
+}
+
 UniValue rescanblockchain(const JSONRPCRequest& request)
 {
     CWallet * const pwallet = GetWalletForJSONRPCRequest(request);
@@ -3588,6 +3602,7 @@ static const CRPCCommand commands[] =
     { "wallet",             "rescanblockchain",         &rescanblockchain,         {"start_height", "stop_height"} },
 
     { "generating",         "generate",                 &generate,                 {"nblocks","maxtries"} },
+    { "generating",         "autogenerate",             &autogenerate,             {} },
 };
 
 void RegisterWalletRPCCommands(CRPCTable &t)
