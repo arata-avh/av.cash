@@ -108,46 +108,67 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
     static const int nInnerLoopCount = 0x10000;
     int nHeightEnd = 0;
     int nHeight = 0;
+    int64_t nPreBlockTime = 0;
 
     {   // Don't keep cs_main locked
         LOCK(cs_main);
         nHeight = chainActive.Height();
         nHeightEnd = nHeight+nGenerate;
+        CBlockIndex* pPreBlock =  chainActive.Tip();
+        if(pPreBlock != nullptr)
+            nPreBlockTime = pPreBlock->GetBlockTime();
     }
     unsigned int nExtraNonce = 0;
     UniValue blockHashes(UniValue::VARR);
-    while (nHeight < nHeightEnd)
-    {
-        std::unique_ptr<CBlockTemplate> pblocktemplate(BlockAssembler(Params()).CreateNewBlock(coinbaseScript->reserveScript));
-        if (!pblocktemplate.get())
-            throw JSONRPCError(RPC_INTERNAL_ERROR, "Couldn't create new block");
-        CBlock *pblock = &pblocktemplate->block;
-        {
-            LOCK(cs_main);
-            IncrementExtraNonce(pblock, chainActive.Tip(), nExtraNonce);
-        }
-        while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
-            ++pblock->nNonce;
-            --nMaxTries;
-        }
-        if (nMaxTries == 0) {
-            break;
-        }
-        if (pblock->nNonce == nInnerLoopCount) {
-            continue;
-        }
-        std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(*pblock);
-        if (!ProcessNewBlock(Params(), shared_pblock, true, nullptr))
-            throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted");
-        ++nHeight;
-        blockHashes.push_back(pblock->GetHash().GetHex());
 
-        //mark script as important because it was used at least for one coinbase output if the script came from the wallet
-        if (keepScript)
-        {
-            coinbaseScript->KeepScript();
-        }
+    // check generate block timespan
+    int64_t nTimeSpan = GetAdjustedTime();
+
+    nTimeSpan -= nPreBlockTime;
+
+    if(nTimeSpan < Params().GetConsensus().nPowTargetSpacing)
+    {
+        return NullUniValue;
     }
+
+    // check dpos
+    {
+
+    }
+
+    std::unique_ptr<CBlockTemplate> pblocktemplate(BlockAssembler(Params()).CreateNewBlock(coinbaseScript->reserveScript));
+    if (!pblocktemplate.get())
+        throw JSONRPCError(RPC_INTERNAL_ERROR, "Couldn't create new block");
+    CBlock *pblock = &pblocktemplate->block;
+    {
+        LOCK(cs_main);
+        IncrementExtraNonce(pblock, chainActive.Tip(), nExtraNonce);
+    }
+
+    /*
+    while (nMaxTries > 0 && pblock->nNonce < nInnerLoopCount && !CheckProofOfWork(pblock->GetHash(), pblock->nBits, Params().GetConsensus())) {
+        ++pblock->nNonce;
+        --nMaxTries;
+    }
+
+    if (nMaxTries == 0) {
+        return NullUniValue;
+    }
+    */
+
+    std::shared_ptr<const CBlock> shared_pblock = std::make_shared<const CBlock>(*pblock);
+    if (!ProcessNewBlock(Params(), shared_pblock, true, nullptr))
+        throw JSONRPCError(RPC_INTERNAL_ERROR, "ProcessNewBlock, block not accepted");
+    ++nHeight;
+    blockHashes.push_back(pblock->GetHash().GetHex());
+
+    //mark script as important because it was used at least for one coinbase output if the script came from the wallet
+    if (keepScript)
+    {
+        coinbaseScript->KeepScript();
+    }
+
+
     return blockHashes;
 }
 
