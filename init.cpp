@@ -1189,6 +1189,11 @@ bool AppInitLockDataDirectory()
     return true;
 }
 
+bool AppInitSuperNodeAddress()
+{
+    return true;
+}
+
 bool AppInitMain()
 {
     const CChainParams& chainparams = Params();
@@ -1652,7 +1657,12 @@ bool AppInitMain()
         return false;
     }
 
-    // ********************************************************* Step 11: start node
+    // ********************************************************* Step 11: super node address
+    if(!AppInitSuperNodeAddress())
+        return false;
+
+
+    // ********************************************************* Step 12: start node
 
     int chain_active_height;
 
@@ -1726,9 +1736,9 @@ bool AppInitMain()
     }
     if (!connman.Start(scheduler, connOptions)) {
         return false;
-    }
+    }    
 
-    // ********************************************************* Step 12: finished
+    // ********************************************************* Step 13: finished
 
     SetRPCWarmupFinished();
     uiInterface.InitMessage(_("Done loading"));
