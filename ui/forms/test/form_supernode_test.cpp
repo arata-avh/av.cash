@@ -34,9 +34,7 @@ void Form_SuperNode_test::on_btn_getblockchaininfo_clicked()
 
 void Form_SuperNode_test::on_btn_generate_clicked()
 {
-    QTimer* timer = new QTimer(this);
-    connect(timer,SIGNAL(timeout()),this,SLOT(timerHandler()));
-    timer->start(100);
+    auto_generate();
 }
 
 void Form_SuperNode_test::auto_generate()
@@ -91,4 +89,11 @@ void Form_SuperNode_test::on_btn_getBlockByPos_clicked()
 void Form_SuperNode_test::on_btn_unspent_clicked()
 {
 
+}
+
+void Form_SuperNode_test::on_btn_autogenerate_clicked()
+{
+    QTimer* timer = new QTimer(this);
+    connect(timer,SIGNAL(timeout()),this,SLOT(timerHandler()));
+    timer->start(5100);
 }

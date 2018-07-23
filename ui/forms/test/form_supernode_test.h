@@ -29,6 +29,8 @@ private slots:
 
     void on_btn_unspent_clicked();
 
+    void on_btn_autogenerate_clicked();
+
 private:
     void auto_generate();
 
