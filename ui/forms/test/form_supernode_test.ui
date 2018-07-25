@@ -48,8 +48,8 @@
   <widget class="QPushButton" name="btn_key_test">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>20</y>
+     <x>170</x>
+     <y>70</y>
      <width>114</width>
      <height>41</height>
     </rect>
@@ -74,8 +74,8 @@
   <widget class="QPushButton" name="btn_getBlockByPos">
    <property name="geometry">
     <rect>
-     <x>10</x>
-     <y>290</y>
+     <x>160</x>
+     <y>120</y>
      <width>114</width>
      <height>32</height>
     </rect>
@@ -97,8 +97,8 @@
   <widget class="QPushButton" name="btn_unspent">
    <property name="geometry">
     <rect>
-     <x>140</x>
-     <y>290</y>
+     <x>20</x>
+     <y>160</y>
      <width>114</width>
      <height>32</height>
     </rect>
@@ -118,6 +118,19 @@
    </property>
    <property name="text">
     <string>generate</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_transaction">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>120</y>
+     <width>114</width>
+     <height>32</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>transaction</string>
    </property>
   </widget>
  </widget>

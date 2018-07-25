@@ -31,6 +31,8 @@ private slots:
 
     void on_btn_autogenerate_clicked();
 
+    void on_btn_transaction_clicked();
+
 private:
     void auto_generate();
 
