@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QTimer>
 
+class COutput;
+
 namespace Ui {
 class Form_SuperNode_test;
 }
@@ -39,6 +41,7 @@ private:
 private:
     Ui::Form_SuperNode_test *ui;
     int timeNumber;
+    std::vector<COutput> vecOutputs;
 };
 
 #endif // FORM_SUPERNODE_TEST_H
