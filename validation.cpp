@@ -1813,7 +1813,17 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
     // (its coinbase is unspendable)
     if (block.GetHash() == chainparams.GetConsensus().hashGenesisBlock) {
         if (!fJustCheck)
+        {
             view.SetBestBlock(pindex->GetBlockHash());
+        }
+
+        assert(block.vtx.size() == 1);
+
+        const CTransaction& tx = *(block.vtx[0]);
+
+        // add outputs
+        AddCoins(view, tx, 0);
+
         return true;
     }
 
