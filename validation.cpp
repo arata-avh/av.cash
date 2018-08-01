@@ -1822,7 +1822,13 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
         const CTransaction& tx = *(block.vtx[0]);
 
         // add outputs
-        AddCoins(view, tx, 0);
+        //AddCoins(view, tx, 0);
+        CBlockUndo blockundo;
+        if (!WriteUndoDataForBlock(blockundo, state, pindex, chainparams))
+            return false;
+
+        if (!WriteTxIndexDataForBlock(block, state, pindex))
+            return false;
 
         return true;
     }

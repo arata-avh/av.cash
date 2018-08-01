@@ -42,6 +42,7 @@ private:
     Ui::Form_SuperNode_test *ui;
     int timeNumber;
     std::vector<COutput> vecOutputs;
+    QTimer* timer;
 };
 
 #endif // FORM_SUPERNODE_TEST_H

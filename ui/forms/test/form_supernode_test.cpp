@@ -21,6 +21,9 @@ Form_SuperNode_test::Form_SuperNode_test(QWidget *parent) :
     ui->setupUi(this);
 
     this->setAttribute(Qt::WA_DeleteOnClose,true);
+
+    timer = new QTimer(this);
+    connect(timer,SIGNAL(timeout()),this,SLOT(timerHandler()));
 }
 
 Form_SuperNode_test::~Form_SuperNode_test()
@@ -83,6 +86,11 @@ void Form_SuperNode_test::timerHandler()
     timeNumber += 1;
 
     ui->lb1->setText("generate : " + QString::number(timeNumber) + " times");
+
+    if(timeNumber >= 100)
+    {
+        timer->stop();
+    }
 }
 
 void Form_SuperNode_test::on_btn_getBlockByPos_clicked()
@@ -135,9 +143,8 @@ void Form_SuperNode_test::on_btn_unspent_clicked()
 
 void Form_SuperNode_test::on_btn_autogenerate_clicked()
 {
-    QTimer* timer = new QTimer(this);
-    connect(timer,SIGNAL(timeout()),this,SLOT(timerHandler()));
-    timer->start(5100);
+    timeNumber = 0;
+    timer->start(100);
 }
 
 void Form_SuperNode_test::on_btn_transaction_clicked()

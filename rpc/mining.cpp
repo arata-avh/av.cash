@@ -128,7 +128,7 @@ UniValue generateBlocks(std::shared_ptr<CReserveScript> coinbaseScript, int nGen
 
     if(nTimeSpan < Params().GetConsensus().nPowTargetSpacing)
     {
-        return NullUniValue;
+        //return NullUniValue;
     }
 
     // check dpos
