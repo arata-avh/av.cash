@@ -1824,11 +1824,31 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
         // add outputs
         //AddCoins(view, tx, 0);
         CBlockUndo blockundo;
-        if (!WriteUndoDataForBlock(blockundo, state, pindex, chainparams))
-            return false;
+        if (pindex->GetUndoPos().IsNull()) {
+            CDiskBlockPos _pos;
+            if (!FindUndoPos(state, pindex->nFile, _pos, ::GetSerializeSize(blockundo, SER_DISK, CLIENT_VERSION) + 40))
+                return error("ConnectBlock(): FindUndoPos failed");
+            if (!UndoWriteToDisk(blockundo, _pos, uint256(), chainparams.MessageStart()))
+                return AbortNode(state, "Failed to write undo data");
 
-        if (!WriteTxIndexDataForBlock(block, state, pindex))
-            return false;
+            // update nUndoPos in block index
+            pindex->nUndoPos = _pos.nPos;
+            pindex->nStatus |= BLOCK_HAVE_UNDO;
+            setDirtyBlockIndex.insert(pindex);
+        }
+
+        CDiskTxPos pos(pindex->GetBlockPos(), GetSizeOfCompactSize(block.vtx.size()));
+        std::vector<std::pair<uint256, CDiskTxPos> > vPos;
+        vPos.reserve(block.vtx.size());
+        for (const CTransactionRef& tx : block.vtx)
+        {
+            vPos.push_back(std::make_pair(tx->GetHash(), pos));
+            pos.nTxOffset += ::GetSerializeSize(*tx, SER_DISK, CLIENT_VERSION);
+        }
+
+        if (!pblocktree->WriteTxIndex(vPos)) {
+            return AbortNode(state, "Failed to write transaction index");
+        }
 
         return true;
     }
