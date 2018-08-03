@@ -1822,7 +1822,7 @@ bool CChainState::ConnectBlock(const CBlock& block, CValidationState& state, CBl
         const CTransaction& tx = *(block.vtx[0]);
 
         // add outputs
-        //AddCoins(view, tx, 0);
+        AddCoins(view, tx, 0);
         CBlockUndo blockundo;
         if (pindex->GetUndoPos().IsNull()) {
             CDiskBlockPos _pos;
